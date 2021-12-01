@@ -1,0 +1,23 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+article.feed{
+    margin-top: 2em;
+    align-content: center;
+    .body,.head,.foot{
+        width: 72em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .foot{
+        display: flex;
+        flex-direction: row;
+        .btn{
+            width: 100%;
+            a{
+                height: 2rem;
+            }
+        }
+    }
+}
+

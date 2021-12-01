@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Price:</strong>
+  <%= @licence.price %>
+</p>
+
+<p>
+  <strong>Track:</strong>
+  <%= @licence.track %>
+</p>
+
+<p>
+  <strong>File url:</strong>
+  <%= @licence.file_url %>
+</p>
+
+<%= link_to 'Edit', edit_licence_path(@licence) %> |
+<%= link_to 'Back', licences_path %>

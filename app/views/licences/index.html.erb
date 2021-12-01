@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Licences</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Price</th>
+      <th>File url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @licences.each do |licence| %>
+      <tr>
+        <td><%= licence.price %></td>
+        <td><%= licence.file_url %></td>
+        <td><%= licence.track %></td>
+        <td><%= link_to 'Show', licence %></td>
+        <td><%= link_to 'Edit', edit_licence_path(licence) %></td>
+        <td><%= link_to 'Destroy', licence, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Licence', new_licence_path %>

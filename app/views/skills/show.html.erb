@@ -1,0 +1,13 @@
+<div class="px-4 py-5">
+
+  <div class="h1 pb-4 text-center border-bottom">
+    <%= @skill.title %>
+  </div>
+
+  <div class="px-3 py-4">
+    <%= @skill.body %>
+  </div>
+
+  <%= link_to 'Edit', edit_skill_path(@skill) %> |
+  <%= link_to 'Back', skills_path %>
+</div>

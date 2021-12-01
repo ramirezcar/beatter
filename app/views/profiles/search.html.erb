@@ -1,0 +1,44 @@
+<div class="pt-3 pb-2">
+  <h3>Resultados de búsqueda</h3>
+</div>
+
+<div class="bg-dark-2 rounded-3 py-1 px-3">
+  <div class="list-group">
+    <% @results.each do |result| %>
+      <% border_bottom = result != @results.last ? "border-bottom" : "" %>
+
+      <div class="row align-items-center p-3 <%= border_bottom %>">
+        <div class="col-1 avatar-s">
+          <%= link_to(profile_path(result.id)) do %>
+            <% if result.avatar.persisted? %>
+              <%= image_tag result.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), class: "w-auto rounded-3" %>
+            <% else %>
+              <%= image_tag "default-avatar.png", :loading => "lazy", class:"w-80 rounded-1" %>
+            <% end %>
+          <% end %>
+        </div>
+        <div class="col-9 list-unstyled">
+          <li class="fs-6 fw-bold w-100">
+            <%= link_to(profile_path(result.id)) do %>
+              <%= result.aka %>
+            <% end %>
+          </li>
+          <span>
+            <%= result.desc %>
+          </span>
+        </div>
+        <div class="col-2 text-center">
+          <% if signed_in? %>
+            <% if result.is_followed_by_current(current_user) %>
+              <%= button_to 'Dejar de seguir', unfollow_action_path(:id => result.id), method: :post, class: 'btn btn-dark btn-sm' %>
+            <% else %>
+              <%= button_to 'Seguir', follow_action_path(:id => result.id), method: :post, disabled: (current_user.id == result.id ? true : false), class: 'btn btn-primary btn-sm' %>
+            <% end %>
+          <% else %>
+              <%= link_to 'Seguir', new_user_session_path, class: 'btn btn-primary btn-sm' %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

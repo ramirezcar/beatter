@@ -1,0 +1,29 @@
+// COLOR PALETTE
+
+// main colors
+// $primary: #d1625a;
+$primary: #d1675f;
+$secondary: #106466;
+
+$white: #dfdfdf;
+// $white: #dfdfdf;
+
+// black colors
+$black: #242529;
+// $black: #222120;
+$black2: saturate($black, 5%);
+$black3: lighten($black, 5%);
+// $black1: #232931;
+// $black2: #393E46;
+
+$bg-body: #0f1119;
+
+$gray: darken($white, 20%);
+$gray-dark: lighten($black3, 7%);
+
+// $primary: #c05353;
+// $secondary: #4a668c;
+
+$bg-primary: darken($black2, 4.5%);
+
+$text: $white;

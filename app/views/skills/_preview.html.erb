@@ -1,0 +1,40 @@
+<div class="bg-dark-2 p-4 rounded-3">
+  <div class="row pb-3">
+    <div class="post-author-img col-auto ps-4 d-flex align-items-center">
+      <% if skill.user.avatar.persisted? %>
+        <%= image_tag skill.user.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), :loading => "lazy", class:"rounded-1" %>
+      <% else %>
+        <%= image_tag "default-avatar.png", :loading => "lazy", class:"rounded-1" %>
+      <% end %>
+    </div>
+    <div class="col-10 py-3">
+      <h3 class="text-primary mb-0"><%= skill.title %></h3>
+    </div>
+  </div>
+  <div class="h-25 truncate px-4">
+    <%= skill.body %>
+  </div>
+  <div class="pt-3 text-center">
+    <%= link_to 'Leer más...', skill, class: 'link-primary fs-6 fw-bolder' %>
+  </div>
+  <td><%= link_to 'Show', skill %></td>
+  <td><%= link_to 'Edit', edit_skill_path(skill) %></td>
+  <td><%= link_to 'Destroy', skill, method: :delete, data: { confirm: "#{t 'activerecord.successful.messages.destroy.confirmation'}" } %></td>
+</div>
+
+<style>
+  .truncate .trix-content{
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    max-height: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    content: "";
+    background: linear-gradient(
+    180deg, rgb(255 255 255) 0%, #959595 55%, rgb(0 0 0 / 0%) 100%);    -webkit-background-clip: text;
+    -webkit-text-fill-color: #781b1b00;
+  }
+  .truncate .trix-content h1{
+    font-size: 1.2rem;
+  }
+</style>

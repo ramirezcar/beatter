@@ -1,0 +1,53 @@
+<div class="bg-dark-2 p-4 m-4 rounded-3">
+  <h2 class="m-3 text-center">Carro de compras</h2>
+  <div class="pt-2">
+    <% unless @cart.line_items.empty? %>
+      <% @cart.line_items.each do |line_item| %>
+        <div class="row align-items-center p-3 mx-1 border-bottom">
+          <div class="col-7 list-unstyled">
+            <li class="fs-6 fw-bold w-100">
+              <%= line_item.licence.track.title unless line_item.licence.track.blank? %>
+            </li>
+            <li class="fs-7 fw-normal text-muted w-100">
+              by <%= line_item.licence.track.user.aka unless line_item.licence.track.blank? %>
+            </li>
+          </div>
+          <div class="col-5 row align-items-center">
+            <span class="fs-6 fw-bold col-10 text-end">
+              <%= number_to_clp(line_item.licence.price) %>
+            </span>
+            <div class="col-2 text-center">
+              <%= link_to(line_item_path(line_item), class:"btn btn-danger btn-sm rounded-2 ", method: :delete) do %>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                  <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                </svg>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="d-flex justify-content-end py-3 align-items-center">
+        <span class="fs-5 pe-2"> Sub total: </span>
+        <h4 class="mb-0"><%= number_to_clp(@cart.sub_total) %></h4>
+      </div>
+      <div class="d-flex justify-content-end pt-3 border-top">
+        <%= button_to "Vaciar carro", cart_path(), method: :delete, class: "btn btn-dark p-3 me-2" %>
+        <%= link_to 'Pagar', new_sale_path, class: "btn btn-primary p-3" %>
+      </div>
+    <% else %>
+      <div class="d-flex flex-column opacity-50">
+        <span class="fs-5 fw-light text-muted p-3 text-center"> No has agregado tracks al carro.</span>
+        <div class="text-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="#6c757d" class="bi bi-bag-x-fill mb-4" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M10.5 3.5a2.5 2.5 0 0 0-5 0V4h5v-.5zm1 0V4H15v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4h3.5v-.5a3.5 3.5 0 1 1 7 0zM6.854 8.146a.5.5 0 1 0-.708.708L7.293 10l-1.147 1.146a.5.5 0 0 0 .708.708L8 10.707l1.146 1.147a.5.5 0 0 0 .708-.708L8.707 10l1.147-1.146a.5.5 0 0 0-.708-.708L8 9.293 6.854 8.146z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="pt-3 text-end border-top">
+        <%= link_to 'Volver', :back, class: "btn btn-dark col-2 p-2" %>
+      </div>
+    <% end %>
+    </div>
+  </div>
+</div>

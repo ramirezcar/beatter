@@ -1,0 +1,9 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Skills</h1>
+
+  <% @skills.each do |skill| %>
+    <div class="mb-4">
+      <%= render partial: 'preview', locals: { skill: skill, show: false } %>
+    </div>
+  <% end %>

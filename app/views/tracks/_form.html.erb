@@ -1,0 +1,68 @@
+<div class="vertical-center d-flex justify-content-center align-items-center h-center">
+  <div class="bg-dark-2 rounded-3">
+    <%= form_with(model: @track, html: { autocomplete: "off" }) do |form| %>
+      <div class="p-5">
+        <div class="form text-center p-3">
+          <h3><%= title %></h3>
+        </div>
+
+        <% if @track.errors.any? %>
+          <div class="alert alert-danger" role="alert">
+            <div id="error_explanation">
+                <%# <h6 class="alert-heading"><%= pluralize(@post.errors.count, "error") prohibited this @post from being saved:</h6> %>
+                <% @track.errors.each do |error| %>
+                  <li><%= error.full_message %></li>
+                <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <div class="mb-3">
+          <%= form.hidden_field :user_id, :value => current_user.id %>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :title, class: 'form-label' %>
+          <%= form.text_field :title, class: 'form-control' %>
+        </div>
+        
+        <div class="mb-3">
+          <%= form.label :img_url, class: 'form-label' %>
+          <%= form.file_field :img_url, accept: 'image/jpeg', class: 'form-control' %>
+        </div>
+        
+        <div class="row">
+          <div class="my-4 col-sm-3">
+              <legend>Licencia Básica - Leasing</legend>
+              <div class="form-floating mb-3">
+                <%= number_field_tag "basic_price", @track.basic_licence.present? ? @track.basic_licence.price : "", placeholder: "$", class: 'form-control', id:"floatingInput" %>
+                <%= label_tag "basic_price", "$", for:"floatingInput" %>
+              </div>
+              <%= hidden_field_tag "basic_licence_name_id", "", class: 'form-control', value:"1" %>
+          </div>
+          <div class="my-4 col-sm-3">
+              <legend>Licencia Exclusiva</legend>
+              <div class="form-floating mb-3">
+                <%= number_field_tag "exclusive_price", @track.exclusive_licence.present? ?  @track.exclusive_licence.price : "", placeholder: "$", class: 'form-control', id:"floatingInput" %>
+                <%= label_tag "exclusive_price", "$", for:"floatingInput" %>
+              </div>
+              <%= hidden_field_tag "exclusive_licence_name_id", "",class: 'form-control', value:"2" %>
+          </div>
+          <div class="my-4 col mb-3">
+            <%= form.label :tagged_audio, class: 'form-label' %>
+            <%= form.file_field :tagged_audio, accept: 'audio/*', class: 'form-control' %>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <%= form.label :bpm, class: 'form-label' %>
+          <%= form.number_field :bpm, min: 30, max: 240, class: 'form-control' %>
+        </div>
+
+        <div class="actions d-flex justify-content-center pt-4">
+          <%= form.submit t('global.forms.submit'), class: 'btn btn-primary p-3 col-2' %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

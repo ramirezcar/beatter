@@ -1,0 +1,42 @@
+<div class="vertical-center d-flex justify-content-center align-items-center h-center">
+  <div class="bg-dark-2 w-80 rounded-3">
+    <%= form_with(model: @post, html: { autocomplete: "off" }) do |form| %>
+        <div class="p-5">
+          <div class="form text-center p-3">
+            <h3><%= title %></h3>
+          </div>
+
+          <% if @post.errors.any? %>
+            <div class="alert alert-danger" role="alert">
+              <div id="error_explanation">
+                  <%# <h6 class="alert-heading"><%= pluralize(@post.errors.count, "error") prohibited this @post from being saved:</h6> %>
+                  <% @post.errors.each do |error| %>
+                    <li><%= error.full_message %></li>
+                  <% end %>
+              </div>
+            </div>
+          <% end %>
+
+          <div class="">
+            <%= form.hidden_field :user_id, :value => current_user.id %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :body, class: 'form-label' %>
+            <%= form.text_area :body, class: 'form-control' %>
+          </div>
+
+          <div class="mb-3">
+            <%= form.label :img_file, class: 'form-label' %>
+            <%= form.file_field :img_file, accept: 'image/jpeg', class: 'form-control' %>
+          </div>
+
+          <div class="actions d-flex justify-content-center pt-4">
+            <%= form.submit t('global.forms.submit'), class: 'btn btn-primary p-3 col-2' %>
+          </div>
+
+          </div>
+        </div>
+    <% end %>
+  </div>
+</div>

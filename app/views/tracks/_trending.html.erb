@@ -1,0 +1,16 @@
+<div class="trending col-auto px-1">
+  <a class="track-play-btn" id="<%= track.id %>" type="button">
+    <div class="play-img rounded-2">
+      <%= image_tag(track.img_url.variant(resize_to_fill: [500, 500, gravity: 'north']), class: 'rounded-2', :alt => track.user.aka) if track.img_url.attached? %>
+    </div>
+  </a>
+    <div class="text-center pt-2">
+      <%= link_to track.title, track %>
+    </div>
+    <audio controls class="col-12 audio-player d-none" id="<%= track.id %>" controlsList="nodownload">
+      <% if track.tagged_audio.attached? %>
+        <source src="<%= rails_blob_url track.tagged_audio %>" type="audio/mpeg">
+        Your browser does not support the audio element.
+      <% end %>
+    </audio>
+</div>

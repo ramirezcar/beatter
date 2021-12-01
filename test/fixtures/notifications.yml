@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: notifications
+#
+#  id              :integer          not null, primary key
+#  action          :string
+#  notifiable_type :string
+#  read_at         :datetime
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
+#  actor_id        :integer
+#  notifiable_id   :string
+#  recipient_id    :integer
+#
+
+one:
+  recipient_id: 1
+  actor_id: 1
+  read_at: 2021-11-30 01:21:16
+  action: MyString
+  notifiable_id: MyString
+  notifiable_type: MyString
+
+two:
+  recipient_id: 1
+  actor_id: 1
+  read_at: 2021-11-30 01:21:16
+  action: MyString
+  notifiable_id: MyString
+  notifiable_type: MyString

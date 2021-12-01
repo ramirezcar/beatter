@@ -1,0 +1,56 @@
+<%= form_with(model: licence) do |form| %>
+  <% if licence.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(licence.errors.count, "error") %> prohibited this licence from being saved:</h2>
+
+      <ul>
+        <% licence.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="my-4 col-sm-4">
+      <legend>Licencia Básica - Leasing</legend>
+        <div class="form-floating mb-3">
+            <%= licence_form.text_field :price, placeholder: "Precio", class: 'form-control', id:"floatingInput" %>
+            <%= licence_form.label :price, for:"floatingInput" %>
+        </div>
+        <%= licence_form.hidden_field :licence_name_id, class: 'form-control', value:"1" %>
+    </div>
+    <div class="my-4 col-sm-4">
+      <legend>Licencia Exclusiva</legend>
+        <div class="form-floating mb-3">
+            <%= licence_form.text_field :price, placeholder: "Precio", class: 'form-control', id:"floatingInput" %>
+            <%= licence_form.label :price, for:"floatingInput" %>
+        </div>
+        <%= licence_form.hidden_field :licence_name_id, class: 'form-control', value:"1" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="field">
+      <%# <%= select_tag "licence[licence_name]", options_from_collection_for_select(LicenceName.all, :id, :name)%>
+      <%= form.collection_select(:licence_name, LicenceName.all, :id, :name, {include_blank: true}, {}) %>
+    </div>
+
+    <div class="field">
+      <%# <%= select_tag "licence[track]", options_from_collection_for_select(Track.all, :id, :release_date)%>
+      <%= form.collection_select(:track_id, Track.all, :id, :title, {include_blank: true}) %>
+    </div>
+
+    <div class="col mb-3">
+      <%= form.label :file_url, class: 'form-label' %>
+      <%= form.file_field :file_url, accept: 'audio/mp3', class: 'form-control' %>
+    </div>
+
+    <%= form.label :price %>
+      <%= form.text_field :price %>
+    </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

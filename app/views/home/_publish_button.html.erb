@@ -1,0 +1,19 @@
+<%= link_to(signed_in? ? link : new_user_session_path, class: "") do %>
+  <div class="btn-publish rounded-2">
+    <div class="flex-row  d-flex justify-content-between">
+      <div class="col-8">
+        <div class="py-3 title">
+          <h6 class="m-2"><%= title %></h6>
+        </div>
+      </div>
+      <div class="col-4 d-flex justify-content-center align-items-center">
+      <%# <div class="big-icon"></div> %>
+        <%# <svg xmlns="http://www.w3.org/2000/svg" width="2.3em" height="2.3em" fill="currentColor" class="bi bi-vinyl-fill" viewBox="0 0 16 16">
+          <path d="M8 6a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm0 3a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"></path>
+          <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0z"></path>
+        </svg> %>
+        <%= icon.html_safe if defined? icon %>
+      </div>
+    </div>
+  </div>
+<% end %>

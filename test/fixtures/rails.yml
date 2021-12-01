@@ -1,0 +1,34 @@
+# == Schema Information
+#
+# Table name: rails
+#
+#  id         :integer          not null, primary key
+#  LineItem   :string
+#  g          :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  cart_id    :integer          not null
+#  licence_id :integer          not null
+#
+# Indexes
+#
+#  index_rails_on_cart_id     (cart_id)
+#  index_rails_on_licence_id  (licence_id)
+#
+# Foreign Keys
+#
+#  cart_id     (cart_id => carts.id)
+#  licence_id  (licence_id => licences.id)
+#
+
+one:
+  g: MyString
+  LineItem: MyString
+  licence: one
+  cart: one
+
+two:
+  g: MyString
+  LineItem: MyString
+  licence: two
+  cart: two
