@@ -2,15 +2,13 @@
 #
 # Table name: tracks
 #
-#  id           :integer          not null, primary key
-#  audio_file   :string
-#  bpm          :integer
-#  img_url      :string
-#  tagged_audio :string
-#  title        :string
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  user_id      :integer          not null
+#  id         :integer          not null, primary key
+#  bpm        :integer
+#  img_url    :string
+#  title      :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  user_id    :integer          not null
 #
 # Indexes
 #
