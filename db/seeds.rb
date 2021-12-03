@@ -6,6 +6,15 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+def create_licence_names
+    LicenceName.create(name: 'Licencia Básica')
+    LicenceName.create(name: 'Licencia Exclusiva')
+end
+
+def create_comment(user_id)
+    Comment.create(comment: 'Estoy comentado a forma de test.', post_id: Post.first.id, user_id: user_id)
+end
+
 def create_and_follow
     start = 0
     ends = 18
@@ -37,4 +46,7 @@ def random_follows(who = nil)
     end
 end
 
-random_follows(6)
+# random_follows(6)
+
+# create_licence_names
+create_comment(1)

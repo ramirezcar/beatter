@@ -2,6 +2,26 @@ class PostsController < ApplicationController
   before_action :authenticate_user!, only: [:show]
   before_action :set_post, only: %i[ show edit update destroy ]
 
+  def comment_action
+    if signed_in?
+      me = current_user
+      post = Post.find(params[:id])
+      comment = params[:comment]
+      post.comments.each do |comment|
+        comment.destroy
+      end
+      new_comment = Comment.create(comment: comment, post_id: post.id, user_id: me.id)
+      
+      new_comment.save
+      #Creando la notificacion
+      Notification.create(recipient_id: post.user.id, actor: current_user, action: "comentado", notifiable: post)
+      respond_to do |format|
+        format.json { render json: { comment: JSON.parse(render_to_string('comments/_comment', layout: false, locals: { comment: new_comment})) } }
+      end
+    else
+      redirect_to new_user_session_path
+    end
+  end
 
   # GET /posts or /posts.json
   def index

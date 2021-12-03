@@ -43,7 +43,11 @@
           <% if signed_in? %>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle d-sm-flex align-items-sm-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" >
-                <%= image_tag current_user.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), class: "rounded-circle me-1", height: "24" %>
+                <% if current_user.avatar.persisted? %>
+                  <%= image_tag current_user.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), class: "rounded-circle me-1", height: "24" %>
+                <% else %>
+                  <%= image_tag 'default-avatar.png', class:"rounded-circle me-1", height: "24" %>
+                <% end %>
                 <strong class="d-none d-sm-block ms-1 me-2"><%= current_user.aka %></strong>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -53,20 +57,45 @@
                 <li><%= link_to "Salir", destroy_user_session_path, method: :delete, class: "dropdown-item" %></li>
               </ul>
             </li>
-            <li class="nav-item dropdown">
+            <!-- AREA DE NOTIFICACIONES -->
+            <li class="nav-item dropdown notifications">
               <a class="nav-link dropdown-toggle d-sm-flex align-items-sm-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
                   <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
                 </svg>
-                <% if @notifications.length > 0 %>      
+                <% if @notifications.length == 1..99 %>      
                   <span class="badge rounded-pill badge-notification translate-middle bg-danger fw-light"><%= @notifications.length %></span>
+                <% elsif @notifications.length > 99 %>
+                  <span class="badge rounded-pill badge-notification translate-middle bg-danger fw-light"><%= '99+'%></span>
                 <% end %>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <% @notifications.each do |notification| %>
-                  <li>
-                    <a class="dropdown-item" href="#"><%= "#{notification.actor.aka} ha #{notification.action} tu #{notification.notifiable.class.name} (#{notification.notifiable_type})" %></a>
-                  </li>
+                <% if @notifications.length > 0 %>
+                  <% @notifications.each do |notification| %>
+                    <li class="px-1">
+                      <a class="dropdown-item" href="#">
+                      <div class="d-flex align-items-center py-1">
+                        <%= image_tag notification.actor.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), class: "rounded-1 ms-1 me-3", height: "24" %>
+                        <div class="d-flex flex-column">
+                          <span>
+                            <%= "#{notification.actor.aka} ha #{notification.action} tu #{notification.notifiable.class.name} (#{notification.notifiable_type})" %>
+                          </span>
+                          <span class="text-muted fs-7">
+                            Hace <%= time_ago_in_words(notification.created_at) %>
+                          </span> 
+                        </div>
+                      </div>
+                      </a>
+                    </li>
+                  <% end %>
+                <% else %>
+                  <div class="px-1">
+                    <div class="d-flex align-items-center py-1">
+                      <div class="px-1 text-muted">
+                        <span>No tienes notificaciones</span> 
+                      </div>
+                    </div>
+                  </div>
                 <% end %>
               </ul>
             </li>

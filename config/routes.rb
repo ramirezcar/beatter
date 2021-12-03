@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :posts
   resources :skills
   resources :sales
+  resources :comments
 
   devise_for :users
 
@@ -27,6 +28,7 @@ Rails.application.routes.draw do
   post "profile/:id/unfollow", to: "profiles#unfollow_action", as: :unfollow_action
 
   post "post/:id/like", to: "likes#like_action", as: :like_action # Dislike se ejecuta con una validacion en el mismo metodo
+  post "post/:id/comment", to: "posts#comment_action", as: :comment_action # Dislike se ejecuta con una validacion en el mismo metodo
 
   post "track/:id/add_to_cart", to: "cart#add_to_cart_action", as: :add_to_cart_action
   

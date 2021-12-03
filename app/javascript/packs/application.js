@@ -36,15 +36,30 @@ window.addEventListener('load', (event) => {
 
   console.log("Start")
 
-  const like_action_btns = document.querySelectorAll("a[data-remote]");
+  const like_action_btns = document.querySelectorAll("a[data-remote].btn-like")
+  const comment_action_btns = document.querySelectorAll(".comment-input form[data-remote]")
   
   like_action_btns.forEach((element) => {
     element.addEventListener("ajax:success", (e) => {
       let post_parent = document.querySelector('#post-' + e.target.id)
       add_like(post_parent)
-      
     });
   });
+
+  comment_action_btns.forEach((element) => {
+    element.addEventListener("ajax:success", (data) => {
+      let post_parent = document.querySelector('#post-' + data.target.id)
+      console.log(data)
+      add_comment(post_parent, data.detail[0].comment)
+    });
+  });
+
+
+  // comment_action_btns.forEach((element) => {
+  //   addEventListener("ajax:success", add_comment)
+  // })
+  //   // });
+  // );
   
   const track_play_btns = document.querySelectorAll("a.track-play-btn");
   
@@ -66,6 +81,18 @@ function add_like(post_parent) {
   // Alterando contador del likes del post
   let like_counter = post_parent.querySelector('.post-likes').firstElementChild
   like_counter.innerText = !liked_svg.classList.contains('d-none') ? parseInt(like_counter.innerText) + 1 : parseInt(like_counter.innerText) -1
+}
+
+function add_comment(post_parent, data) {
+  // Obteniendo la seccion de comentarios del post
+  let comments_section = post_parent.querySelector('.comments')
+  // Preparando elemento hijo a agregar
+  let innerHTML = '<div class="post-comment col py-2 px-3">'
+  innerHTML += '<span class="fw-bold me-1"><a class="font-weight-bold">' + data.user_id.aka + '</a></span>  <span class="fw-light">'+data.comment+ '</span>'
+  innerHTML += '<div class="text-muted ago">Hace unos segundos</div>'
+  innerHTML += '</div>'
+  // Agregando elemento emergente al DOM
+  comments_section.innerHTML += (innerHTML)
 }
 
 function get_audio_by_play_btn(element){

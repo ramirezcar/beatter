@@ -161,6 +161,8 @@ ActiveRecord::Schema.define(version: 2398_47_62_387481) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "title"
     t.integer "user_id", null: false
+    t.string "tagged_audio"
+    t.string "audio_file"
     t.index ["user_id"], name: "index_tracks_on_user_id"
   end
 

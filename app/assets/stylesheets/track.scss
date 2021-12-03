@@ -7,8 +7,10 @@ $main-yellow-rgb-015: rgba(189, 187, 73, 0.1) !default;
 $main-red: #bd150b !default;
 $main-red-rgb-015: rgba(189, 21, 11, 0.1) !default;
 $main-blue: $primary !default;
-$main-blue-rgb-015: $black2 !default;
-$bg-lighten-1: lighten( $bg-primary, 1% );
+// $main-blue-rgb-015: $black2 !default;
+$main-blue-rgb-015: #0e1018 !default;
+// $bg-lighten-1: lighten( $bg-primary, 1% );
+$bg-lighten-1: #261c24;
 
 /* This pen */
 body {
@@ -174,7 +176,7 @@ a, a:hover {
       content: "";
       position: absolute;
       display: block;
-      background: $black2;
+      // background: $black2;
       top: -20%;
       height: 130%;
       width: 55px;
@@ -220,7 +222,7 @@ a, a:hover {
 	
   .postcard.dark {
 		.postcard__text:before {
-			background: $bg-lighten-1;
+			background: #201921;
 		}
   }
 	.postcard.light {
@@ -262,10 +264,10 @@ a, a:hover {
 	background-color: $primary;
 }
 .blue::before {
-	background-image: linear-gradient(-30deg, $main-blue-rgb-015, transparent 50%);
+	background-image: linear-gradient(300deg, $main-blue-rgb-015, transparent 90%);
 }
 .blue:nth-child(2n)::before {
-	background-image: linear-gradient(30deg, $main-blue-rgb-015, transparent 50%);
+	background-image: linear-gradient(30deg, $main-blue-rgb-015, transparent 90%);
 }
 
 .postcard .postcard__tagbox .red.play:hover {
@@ -327,13 +329,13 @@ a, a:hover {
 
 	.blue::before {
 		background-image: linear-gradient(
-			-30deg,
-			$black,
-			transparent 30%
+			300deg,
+			$main-blue-rgb-015,
+			transparent 90%
 		);
 	}
 	.blue:nth-child(2n)::before {
-		background-image: linear-gradient(80deg, $main-blue-rgb-015, transparent 50%);
+		background-image: linear-gradient(80deg, $main-blue-rgb-015, transparent 90%);
 	}
 
 	.red::before {
