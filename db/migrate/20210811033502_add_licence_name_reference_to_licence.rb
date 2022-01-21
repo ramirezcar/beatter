@@ -5,7 +5,7 @@ class AddLicenceNameReferenceToLicence < ActiveRecord::Migration[6.1]
       t.string :file_url
 
       t.timestamps
+      add_reference :licences, :licence_name, null: true, foreign_key: true
     end
-    add_column :licences, :licence_name, :reference
   end
 end
