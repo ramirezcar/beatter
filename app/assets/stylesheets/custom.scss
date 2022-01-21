@@ -72,8 +72,7 @@ audio {
 }
 
 .bg-dark-2{
-  --bs-bg-opacity: 1;
-    background-color: rgba(var(--bs-body-rgb), var(--bs-bg-opacity)) !important;
+  background-color: $bg-primary !important;
 }
 
 .bg-primary {
