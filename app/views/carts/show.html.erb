@@ -33,7 +33,7 @@
       </div>
       <div class="d-flex justify-content-end pt-3 border-top">
         <%= button_to "Vaciar carro", cart_path(), method: :delete, class: "btn btn-dark p-3 me-2" %>
-        <%= link_to 'Pagar', new_sale_path, class: "btn btn-primary p-3" %>
+        <%= link_to 'Pagar', sales_path(buy_order: 1212121212), class: "btn btn-primary p-3" %>
       </div>
     <% else %>
       <div class="d-flex flex-column opacity-50">

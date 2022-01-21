@@ -4,14 +4,17 @@
 // that code so it'll be compiled.
 
 import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
 import * as ActiveStorage from "@rails/activestorage"
 import "channels"
+global.jQuery = require('jquery');
 import "bootstrap"
-global.toastr = require("toastr")
+
+global.$ = window.jQuery = require('jquery')
 
 Rails.start()
 ActiveStorage.start()
+global.toastr = require("toastr")
+// import Turbolinks from "turbolinks"
 // Turbolinks.start()
 
 toastr.options = {
@@ -35,9 +38,10 @@ toastr.options = {
 window.addEventListener('load', (event) => {
 
   console.log("Start")
-
+  
   const like_action_btns = document.querySelectorAll("a[data-remote].btn-like")
   const comment_action_btns = document.querySelectorAll(".comment-input form[data-remote]")
+  const show_comment_input_btns = document.querySelectorAll("div.btn-comment")
   
   like_action_btns.forEach((element) => {
     element.addEventListener("ajax:success", (e) => {
@@ -45,12 +49,24 @@ window.addEventListener('load', (event) => {
       add_like(post_parent)
     });
   });
-
+  
   comment_action_btns.forEach((element) => {
     element.addEventListener("ajax:success", (data) => {
       let post_parent = document.querySelector('#post-' + data.target.id)
       console.log(data)
       add_comment(post_parent, data.detail[0].comment)
+    });
+    
+    show_comment_input_btns.forEach((element) => {
+      element.addEventListener("click", (e) => {
+        let post_parent = document.querySelector('#post-' + e.target.id)
+        let comment_input = post_parent.querySelector('.comment-input')
+        let comments_section = post_parent.querySelector('.comments')
+        comments_section.classList.toggle('truncate')
+        comments_section.classList.toggle('h-4r')
+        comment_input.classList.toggle('d-none')
+        comment_input.querySelector('#comment').focus()
+      });
     });
   });
 
@@ -87,8 +103,8 @@ function add_comment(post_parent, data) {
   // Obteniendo la seccion de comentarios del post
   let comments_section = post_parent.querySelector('.comments')
   // Preparando elemento hijo a agregar
-  let innerHTML = '<div class="post-comment col py-2 px-3">'
-  innerHTML += '<span class="fw-bold me-1"><a class="font-weight-bold">' + data.user_id.aka + '</a></span>  <span class="fw-light">'+data.comment+ '</span>'
+  let innerHTML = '<div class="post-comment col py-2 px-4">'
+  innerHTML += '<span class="fw-bold me-1"><a class="font-weight-bold">' + data.user + '</a></span>  <span class="fw-light">'+data.comment+ '</span>'
   innerHTML += '<div class="text-muted ago">Hace unos segundos</div>'
   innerHTML += '</div>'
   // Agregando elemento emergente al DOM
@@ -138,6 +154,68 @@ function play_track(element) {
     pause(audio_tag)
   }
 }
+
+
+
+// let Notifications = (function() {
+//   function Notifications() {
+//     let notifications = document.querySelectorAll("[data-behavior='notifications']");
+//     console.log(notifications);
+//     if (notifications.length > 0) {
+//       // handleSuccess(notifications.data("notifications"));
+//       document.querySelector("[data-behavior='notifications-link']").on("click", handleClick());
+//       debugger;
+//       setInterval(((function(_this) {
+//         return function() {
+//           return _this.getNewNotifications();
+//         };
+//       })(this)), 5000);
+//     }
+//   }
+
+//   let getNewNotifications = function() {
+//     return $.ajax({
+//       url: "/notifications.json",
+//       dataType: "JSON",
+//       method: "GET",
+//       success: this.handleSuccess
+//     });
+//   };
+
+//   let handleClick = function(e) {
+//     $.ajax({
+//       url: "/notifications/mark_as_read",
+//       dataType: "JSON",
+//       method: "POST",
+//       success: function() {
+//         return $("[data-behavior='unread-count']").text(0);
+//       }
+//     });
+//     return console.log('Yes.');
+//   };
+
+//   let handleSuccess = function(data) {
+//     var items, unread_count;
+//     items = $.map(data, function(notification) {
+//       return notification.template;
+//     });
+//     unread_count = 0;
+//     $.each(data, function(i, notification) {
+//       if (notification.unread) {
+//         return unread_count += 1;
+//       }
+//     });
+//     document.querySelector("[data-behavior='unread-count']").text(unread_count);
+//     return document.querySelector("[data-behavior='notification-items']").html(items);
+//   };
+
+//   return Notifications;
+
+// })();
+
+// jQuery(function() {
+//   return new Notifications;
+// });
 
 
 require("trix")

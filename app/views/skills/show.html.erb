@@ -1,13 +1,56 @@
-<div class="px-4 py-5">
-
-  <div class="h1 pb-4 text-center border-bottom">
-    <%= @skill.title %>
+<div class="py-3">
+  <div class="py-3 px-5 mb-3 bg-dark-2 rounded-3">
+    <div class="d-flex my-3">
+      <div class="post-author-img d-flex align-items-center py-1 pe-1 col-1">
+        <a href="<%= profile_path(@skill.user) %>">
+          <% if @skill.user.avatar.persisted? %>
+            <%= image_tag @skill.user.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), :loading => "lazy", class:"rounded-3" %>
+          <% else %>
+            <%= image_tag "default-avatar.png", :loading => "lazy", class:"rounded-3" %>
+          <% end %>
+        </a>
+      </div>
+      <div class="d-flex flex-column w-100">
+        <h3 class="text-start mb-0">
+          <%= @skill.title %>
+        </h3>
+        <span class="text-muted ago">
+          Publicado el <%= I18n.l(@skill.created_at, format: '%a, %d %b. %Y') %>
+        </span>
+      </div>
+      <% if signed_in? && @skill.user.id == current_user.id %>
+        <div class="post-menu col-1 d-flex justify-content-center align-items-center">
+          <a class="btn btn-link" href="<%= edit_skill_path(@skill) %>">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen-fill" viewBox="0 0 16 16">
+              <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/>
+            </svg>
+          </a>
+        </div>
+      <% end %>
+    </div>
+    <div class="border-bottom my-2"></div>
+    <div class="d-flex justify-content-end">
+      <span>
+        14 likes
+      </span> 
+      <span class="ms-2">
+        4 comentarios
+      </span> 
+    </div>
   </div>
 
-  <div class="px-3 py-4">
+  <div class="px-5 py-4 bg-dark-2 rounded-3">
     <%= @skill.body %>
+    <div class="border-bottom my-2">
+    </div>
   </div>
 
-  <%= link_to 'Edit', edit_skill_path(@skill) %> |
-  <%= link_to 'Back', skills_path %>
+  <div class="px-5 py-4 bg-dark-2 mt-3 rounded-3">
+  <h4>Comentarios</h4>
+    <div class="post-comment col py-2 px-3">
+      <span class="fw-bold me-1"><a class="font-weight-bold" href="/profile/2">Blast</a></span> <span class="fw-light">we</span>
+      <div class="text-muted ago">Hace menos de 1 minuto</div>
+    </div>
+  </div>
+
 </div>

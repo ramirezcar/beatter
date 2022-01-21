@@ -29,7 +29,7 @@ body {
 	background: #f3f5f7;
 }
 
-a, a:hover {
+a{
 	text-decoration: none;
 	transition: color 0.3s ease-in-out;
 }
@@ -47,7 +47,7 @@ a, a:hover {
   display: flex;
   
   box-shadow: 0 4px 21px -12px rgba(0, 0, 0, 0.66);
-  margin: 0 0 2rem 0;
+  // margin: 0 0 2rem 0;
   overflow: hidden;
   position: relative;
   color: $white;
@@ -63,11 +63,6 @@ a, a:hover {
 	.t-dark {
 		color: #18151f;
 	}
-	
-  a {
-    color: inherit;
-  }
-	
 
   .postcard__title {
     font-size: 1.75rem;
@@ -75,7 +70,7 @@ a, a:hover {
   }
 
   .postcard__img {
-    max-height: 180px;
+    max-height: 28em;
     width: 100%;
     object-fit: cover;
     position: relative;

@@ -1,5 +1,5 @@
 <!-- Navbar-->
-    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark shadow" role="navigation">
       <div class="container-fluid justify-content-between">
         <!-- Left elements -->
         <div class="d-flex">
@@ -15,16 +15,13 @@
               </span>
             </a>
           </div>
-        </div>
-        <!-- Search form -->
-        <!-- Center elements -->
         <ul class="nav nav-pills flex-row d-none d-md-flex">
-          <li class="nav-item active">
-            <%= link_to "Inicio", root_path, class: "nav-link" %>
+          <li class="nav-item">
+            <%= link_to "Inicio", root_path, class: "nav-link text-uppercase" %>
           </li>
 
           <li class="nav-item">
-            <%= link_to "Skills", skills_path, class: "nav-link" %>
+            <%= link_to "Skills", skills_path, class: "nav-link text-uppercase" %>
           </li>
 
           <li class="nav-item">
@@ -38,6 +35,9 @@
             </a>
           </li>
         </ul>
+        </div>
+        <!-- Search form -->
+        <!-- Center elements -->
         <!-- Right elements -->
         <ul class="nav nav-pills flex-row">
           <% if signed_in? %>
@@ -58,12 +58,12 @@
               </ul>
             </li>
             <!-- AREA DE NOTIFICACIONES -->
-            <li class="nav-item dropdown notifications">
-              <a class="nav-link dropdown-toggle d-sm-flex align-items-sm-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <li class="nav-item dropdown notifications" data-behavior="notifications">
+              <a class="nav-link dropdown-toggle d-sm-flex align-items-sm-center" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-behavior="notifications-link">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
                   <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2zm.995-14.901a1 1 0 1 0-1.99 0A5.002 5.002 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901z"/>
                 </svg>
-                <% if @notifications.length == 1..99 %>      
+                <% if (1..99).to_a.include? @notifications.size %>      
                   <span class="badge rounded-pill badge-notification translate-middle bg-danger fw-light"><%= @notifications.length %></span>
                 <% elsif @notifications.length > 99 %>
                   <span class="badge rounded-pill badge-notification translate-middle bg-danger fw-light"><%= '99+'%></span>
@@ -75,7 +75,11 @@
                     <li class="px-1">
                       <a class="dropdown-item" href="#">
                       <div class="d-flex align-items-center py-1">
-                        <%= image_tag notification.actor.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), class: "rounded-1 ms-1 me-3", height: "24" %>
+                        <% if notification.actor.avatar.persisted? %>
+                          <%= image_tag notification.actor.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), class: "rounded-1 ms-1 me-3", height: "24" %>
+                        <% else %>
+                          <%= image_tag "default-avatar.png", :loading => "lazy", class: "rounded-1 ms-1 me-3", height: "24" %>
+                        <% end %>
                         <div class="d-flex flex-column">
                           <span>
                             <%= "#{notification.actor.aka} ha #{notification.action} tu #{notification.notifiable.class.name} (#{notification.notifiable_type})" %>
@@ -136,3 +140,13 @@
       </div>
     </nav>
     <!-- Navbar -->
+
+    <script>
+        $( '.nav-pills .nav-item a.nav-link' ).on('click',
+          function () {
+            console.log("Hola :)")
+            $( '.nav-pills .nav-item.active' )
+            .removeClass( 'active' );
+            $( this ).parent( 'li' ).addClass( 'active' );
+        });
+    </script>

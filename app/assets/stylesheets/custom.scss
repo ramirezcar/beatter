@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Archivo:wght@100;200;300;400;500;700;900&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&family=Roboto+Slab:wght@100;300;500;700;900&display=swap');
+
 @import "colors";
 
 $radius: 1rem;
@@ -16,21 +18,10 @@ $spacers: (
   );
 $standard-size: 940px;
 
-.trich{
-  background-color: #2f2e2c;
-  border: 2px solid #2f2e2c;
-  color: silver;
-  font-weight: 300;
-  // font-size: 1rem;
-  border-radius: 0.25rem;
-  &:focus-within{
-    border: 2px solid #d1675f;
-    color: silver;
-    // background-color: #24211e;
-    outline: 0;
-    box-shadow: 0 0 0 0;
-  }
-}
+
+// h1,h2,h3,h4,h5,h6{
+//   font-family: 'Roboto Condensed', sans-serif;
+// }
 
 // $theme-colors: (
 //   "primary": $primary,
@@ -133,6 +124,10 @@ audio {
   }
 }
 
+.btn-link:hover {
+  color: #ffffff;
+}
+
 .btn-outline-primary {
   color: $primary;
   border-color: $primary;
@@ -174,17 +169,26 @@ audio {
 .btn-publish {
   display: block;
   text-align: right;
-  text-decoration: none;
+  text-decoration: none; 
   font-weight: 700;
   font-size: 1.2em;
   text-transform: uppercase;
   background-size: 200% auto;
   $gradient-color : transparentize(desaturate(lighten($primary, 5%), 3%), .8);
   background-image: linear-gradient(to right, $gradient-color 0%, desaturate(darken($gradient-color, 5%), 3%) 80%, desaturate($gradient-color, 7%) 100%);
+  background-image: linear-gradient(to right, #0e0e0ed8 0%, #111111e1 70%, #1c1c1c 100%);
   transition: 0.3s;
   &:hover,&:focus {
-    box-shadow: 0 0px 16px rgba(179, 138, 125, 0.227), 0 1px 0px rgba(0,0,0,.08);
+    // box-shadow: 0 0px 16px rgba(179, 138, 125/0.227), 0 1px 0px rgba(15, 15, 15/0.08);
+    box-shadow: 0 0px 16px #070707, 0 0px 0px rgb(0, 0, 0/.08);
     background-position: right center;
+    svg{
+      fill: rgb(14, 14, 14);
+      // display: none;
+    }
+  }
+  svg{
+    fill: #18191e;
   }
   &:active{
     background-image: linear-gradient(to left, $gradient-color 0%, desaturate(lighten($gradient-color, 5%), 1%) 80%, desaturate(lighten($gradient-color, 3%), 5%) 100%);
@@ -192,10 +196,6 @@ audio {
   h6{
     font-weight: 600 !important;
     letter-spacing: -0.01em;
-  }
-  svg{
-    fill: darken(desaturate($gradient-color, 6%), 6%);
-    // display: none;
   }
   .big-icon{
     background: url(https://image.flaticon.com/icons/svg/60/60993.svg) 0 1em/128px 128px no-repeat;
@@ -213,11 +213,6 @@ audio {
   border: 0;
   color: $text;
   // border-radius: $radius;
-}
-
-.container{
-  // max-width: $standard-size;
-  padding-top: 54px;
 }
 
 .dropdown-menu{
@@ -257,7 +252,7 @@ fieldset {
   
   legend{
     font-weight: 700;
-    font-size: 1.3em;
+    font-size: 1.1em;
   }
 
 .fill-gray{
@@ -315,6 +310,14 @@ fieldset {
   font-size: .75rem !important;
 }
 
+.h-4r{
+  max-height: 4rem!important;
+}
+
+.h-5r{
+  height: 5rem;
+}
+
 h1,h2,h3,h4,h5,h6 {
   font-weight: 700;
 }
@@ -330,6 +333,16 @@ header{
 .avatar-s{
   img{
     width: 3.25rem !important;
+  }
+}
+
+.stars{
+
+  .icon-star:hover{
+    & > svg:nth-child(3n+3) { fill: blue; }
+    svg{
+      fill: rgb(243, 197, 81);
+    }
   }
 }
 
@@ -435,12 +448,29 @@ nav div{
   width: -webkit-fill-available;
 }
 
-.navbar-dark{
+.navbar{
   font-size: 1.15em;
   .navbar-brand{
     font-size: 1.1em;
     color: $primary;
     font-weight: 700;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-direction: column;
+    height: 100%;
+  }
+  .nav-item{
+    margin: 0 1em;
+    &.active {
+      border-bottom: 3px solid $primary;
+      .nav-link:hover, .nav-link:focus {
+        color: white;
+        .active:hover{
+          border-bottom: 3px solid white;
+        }
+    }
+    }
   }
   .navbar-nav{
     .nav-link{
@@ -450,6 +480,21 @@ nav div{
     }
   }
 }
+
+.nav-pills .nav-link {
+  margin-bottom: -4px;
+  margin-top: 2px;
+  background: none;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 1.1em 0;
+  height: 100%;
+  svg{
+    margin-bottom: 1px;
+    margin-top: -1px;
+  }
+}
+
 
 .play-img{
   background: url("play-button.png");
@@ -462,7 +507,7 @@ nav div{
 }
 
 .ago{
-  font-size: 0.8rem;
+  font-size: 1em;
 }
 
 .post-author-img img{
@@ -579,11 +624,8 @@ nav div{
   background: $secondary;
 }
 
-span.badge{
-  // font-size: 0.6rem;
-  // border-radius: 0.06rem;
-  // margin-right: 0.3em;
-  // font-weight: 300;
+.badge{
+  // vertical-align: sub;
 }
 
 .track-img img{
@@ -597,15 +639,40 @@ span.badge{
   }
 }
 
+.trich{
+  background-color: $black3;
+  border: 2px solid $black3;
+  color: silver;
+  font-weight: 300;
+  // font-size: 1rem;
+  border-radius: 0.25rem;
+  &:focus-within{
+    border: 2px solid #d1675f;
+    color: silver;
+    // background-color: #24211e;
+    outline: 0;
+    box-shadow: 0 0 0 0;
+  }
+}
+
+.truncate{
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  max-height: 12rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  content: "";
+  background: linear-gradient(180deg, #9d9d9dd4 15%, #484747 45%, #00000000 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: #781b1b00;
+}
+
 .w-30rem{
   background-color: $black;
   width: 100%;
   max-width: 30rem;
 }
 
-.w-standard{
-  width: 60rem;
-}
 
 .w-80{
   width: 80%;
@@ -613,7 +680,11 @@ span.badge{
 
 @media (max-width: 992px){
   body{
-    font-size: 16px;
+    // font-size: 140%!important;
+    max-width: 960px !important;
+    .logo{
+      font-size: 1em;
+    }
     .trending{
       font-size: 1.2em;
       img{
@@ -635,6 +706,12 @@ span.badge{
         padding-left: 0.5rem !important;
       }
     }
+  }
+}
+
+@media (min-width: 768px){
+  .container-md, .container-sm, .container {
+    max-width: 960px;
   }
 }
 

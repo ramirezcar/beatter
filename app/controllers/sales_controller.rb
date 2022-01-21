@@ -1,5 +1,4 @@
 class SalesController < ApplicationController
-  before_action :set_sale, only: %i[ show edit update destroy ]
 
   # GET /sales or /sales.json
   def index
@@ -65,12 +64,12 @@ class SalesController < ApplicationController
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_sale
-      @sale = Sale.find(params[:id])
-    end
+    # def set_sale
+    #   @sale = Sale.find(params[:id])
+    # end
 
     # Only allow a list of trusted parameters through.
     def sale_params
-      params.require(:sale).permit(:p_order)
+      params.require(:sale).permit(:buy_order)
     end
 end

@@ -1,9 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Skills</h1>
+<div class="d-flex justify-content-between">
+  <h2 class="mb-0">Comparte tus habilidades con la comunidad</h2>
+  <a class="btn btn-lg btn-outline-primary fw-bold text-uppercase" href="<%= new_skill_path %>">Publicar una Skill +</a>
+</div>
 
-  <% @skills.each do |skill| %>
-    <div class="mb-4">
-      <%= render partial: 'preview', locals: { skill: skill, show: false } %>
-    </div>
-  <% end %>
+
+<%= render partial: 'layouts/separator', locals: { title: 'Publicaciones' } %>
+
+<% @skills.each do |skill| %>
+  <div class="mb-4">
+    <%= render partial: 'preview', locals: { skill: skill, show: false } %>
+  </div>
+<% end %>

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :skills
   resources :sales
   resources :comments
+  get '/sales', to: "sales#create", as: "create_sale"
 
   devise_for :users
 
@@ -34,6 +35,10 @@ Rails.application.routes.draw do
   
   get '/search', to: "profiles#search"
 
-  resources :notifications
+  resources :notifications do
+    collection do
+      post :mark_as_read
+    end
+  end
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

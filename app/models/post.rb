@@ -44,7 +44,7 @@ class Post < ApplicationRecord
 
     
     def comments
-        comments = Comment.get_post_comments(self.id)
+        comments = Comment.get_post_comments(self.id)#.sort { |a, b| b <=> a }
     end
 
     def liked(me)
@@ -52,7 +52,6 @@ class Post < ApplicationRecord
             liked = Like.is_liked(me.id, self.id)
         end
     end
-
     
     def get_likes_count
         likes = Like.where(post_id: self.id).count

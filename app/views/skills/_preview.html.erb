@@ -1,15 +1,36 @@
 <div class="bg-dark-2 p-4 rounded-3">
-  <div class="row pb-3">
-    <div class="post-author-img col-auto ps-4 d-flex align-items-center">
-      <% if skill.user.avatar.persisted? %>
-        <%= image_tag skill.user.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), :loading => "lazy", class:"rounded-1" %>
-      <% else %>
-        <%= image_tag "default-avatar.png", :loading => "lazy", class:"rounded-1" %>
-      <% end %>
+  <div class="pb-3 d-flex flex-row justify-content-between">
+
+    <div class="row w-100">
+      <div class="post-author-img col-auto ps-4 d-flex align-items-center">
+        <% if skill.user.avatar.persisted? %>
+          <%= image_tag skill.user.avatar.variant(resize_to_fill: [500, 500, gravity: 'north']), :loading => "lazy", class:"rounded-3" %>
+        <% else %>
+          <%= image_tag "default-avatar.png", :loading => "lazy", class:"rounded-3" %>
+        <% end %>
+      </div>
+      <div class="col-9 py-2">
+        <h3 class="text-primary mb-0"><%= skill.title %></h3>
+      </div>
     </div>
-    <div class="col-10 py-3">
-      <h3 class="text-primary mb-0"><%= skill.title %></h3>
-    </div>
+
+    <% if signed_in? && skill.user.id == current_user.id %>
+      <div class="post-menu col-1 dropend">
+        <a role="button" data-bs-toggle="dropdown">
+          <div class="h-100 d-flex flex-column align-items-center justify-content-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+              <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"/>
+            </svg>  
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-primary">
+          <%= link_to('Editar', edit_skill_path(skill), class: "dropdown-item") %>
+          <%= link_to('Eliminar', skill, method: :delete, data: { confirm: '¿Quieres eliminar la publicacion?' }, class: "dropdown-item") %>
+          <%# <li><hr class="dropdown-divider"></li> %>
+          <%# <a class="dropdown-item" href="#"><i class="fab fa-apple-pay"></i>Reportar</a> %>
+        </div>
+      </div>
+    <% end %>
   </div>
   <div class="h-25 truncate px-4">
     <%= skill.body %>
@@ -17,10 +38,7 @@
   <div class="pt-3 text-center">
     <%= link_to 'Leer más...', skill, class: 'link-primary fs-6 fw-bolder' %>
   </div>
-  <td><%= link_to 'Show', skill %></td>
-  <td><%= link_to 'Edit', edit_skill_path(skill) %></td>
-  <td><%= link_to 'Destroy', skill, method: :delete, data: { confirm: "#{t 'activerecord.successful.messages.destroy.confirmation'}" } %></td>
-</div>
+  </div>
 
 <style>
   .truncate .trix-content{

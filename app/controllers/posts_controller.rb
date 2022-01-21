@@ -7,16 +7,16 @@ class PostsController < ApplicationController
       me = current_user
       post = Post.find(params[:id])
       comment = params[:comment]
-      post.comments.each do |comment|
-        comment.destroy
-      end
+      # post.comments.each do |comment|
+      #   comment.destroy
+      # end
       new_comment = Comment.create(comment: comment, post_id: post.id, user_id: me.id)
       
       new_comment.save
       #Creando la notificacion
       Notification.create(recipient_id: post.user.id, actor: current_user, action: "comentado", notifiable: post)
       respond_to do |format|
-        format.json { render json: { comment: JSON.parse(render_to_string('comments/_comment', layout: false, locals: { comment: new_comment})) } }
+        format.json { render json: { comment: JSON.parse(render_to_string('comments/_comment', layout: false, locals: { comment: new_comment, user: me.aka})) } }
       end
     else
       redirect_to new_user_session_path

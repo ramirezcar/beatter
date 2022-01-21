@@ -4,145 +4,174 @@
     <%= image_tag(track.img_url.variant(resize_to_fill: [500, 500, gravity: 'north']), class: 'postcard__img', :alt => track.user.aka) if track.img_url.attached? %>
   </a>
 
-  <div class="postcard__text ps-5 d-flex justify-content-evenly">
-    <div>
-      <div class="postcard__title blue d-flex flex-column">
-        <a class="pe-2" href="<%= track_path(track) %>">
-          <h3 class="fw-bolder pb-0 mb-0">
-            <%= track.title %>
-          </h3>
-        </a>
-      </div>
-      <div class="postcard__subtitle small pt-2">
-        <span class="badge bg-secondary"><%= link_to track.user.aka, profile_path(track.user) %></span>
-        <time datetime="2020-05-25 12:00:00">
-          <i class="fas fa-calendar-alt mr-2"></i>
-          <span class="ago ps-2">
-            Hace <%= time_ago_in_words(track.created_at) %>
-          </span>
-        </time>
-      </div>
-    </div>
-
-    <div class="postcard__bar"></div>
-
-    <div class="postcard__tagbox">
-      <audio controls class="col-12 audio-player" id="<%= track.id %>" controlsList="nodownload">
-        <% if track.tagged_audio.attached? %>
-          <source src="<%= rails_blob_url track.tagged_audio %>" type="audio/mpeg">
-          Your browser does not support the audio element.
-        <% end %>
-      </audio>
-    </div>
-
-    <ul class="ps-0 mt-2">
-      <%# <li class="tag-item"><i class="fas fa-tag mr-2"></i>Hip Hop | Soul</li> %>
-      <span class="btn-sm btn-dark"><i class="fas fa-clock mr-2"></i><%= track.bpm %> BPM</span>
-      <a type="button" class="btn-sm btn-dark track-play-btn" id="<%= track.id %>"><i class="fas fa-play mr-2"></i>Reproducir</a>
-
-      <%# LICENCE PRICES MODAL %>
-      <button type="button" class="btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#licenceModalTrack<%= track.id %>">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
-          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
-        </svg>
-        <% unless track.basic_licence.blank? %>
-          <%= track.basic_licence.price %> CLP
-        <% end %>
-      </button>
-
-      <!-- Modal -->
-      <div class="modal fade" id="licenceModalTrack<%= track.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel"><%= track.title %><span class="text-muted fw-light"> &centerdot; <%= track.user.aka%></span></h5>
-              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <div class="list-group">
-                <div class="row align-items-center pb-3 border-bottom">
-                  <div class="col-8 list-unstyled">
-                    <li class="fs-6 fw-bold w-100">
-                      Licencia <%= track.basic_licence.name unless track.basic_licence.blank? %>
-                    </li>
-                    <span>
-                      Licencia básica o leasing, permite el uso para fines comerciales, multiples compradores.
-                    </span>
-                  </div>
-                  <div class="col-4">
-                    <% if signed_in? && track.user != current_user %>
-                      <a type="button" class="btn btn-primary float-end" href="<%= line_items_path(:licence_id => track.basic_licence.id) unless track.basic_licence.blank? %>">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
-                          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
-                        </svg>
-                        <%= track.basic_licence.price unless track.basic_licence.blank?  %> CLP
-                      </a>
-                    <% else %>
-                      <button type="button" class="btn btn-primary float-end pe-none" disabled>
-                        $
-                        <%= track.basic_licence.price unless track.basic_licence.blank?  %> CLP
-                      </button>
-                    <% end %>
-                  </div>
-                </div>
-                <div class="row align-items-center pt-3">
-                  <div class="col-8 list-unstyled">
-                    <li class="fs-6 fw-bold w-100">
-                      Licencia <%= track.exclusive_licence.name unless track.exclusive_licence.blank? %>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text-fill ms-1" viewBox="0 0 16 16">
-                        <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"></path>
-                      </svg>
-                    </li>
-                    <span>
-                      Licencia exclusiva, adquisición de copia única, permite el uso para fines comerciales, único comprador.
-                    </span>
-                  </div>
-                  <div class="col-4">
-                    <% if signed_in? && track.user != current_user %>
-                      <a type="button" class="btn btn-primary float-end" href="<%= line_items_path(:licence_id => track.exclusive_licence.id) unless track.exclusive_licence.blank? %>">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
-                          <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
-                        </svg>
-                        <%= track.exclusive_licence.price unless track.exclusive_licence.blank?  %> CLP
-                      </a>
-                    <% else %>
-                      <button type="button" class="btn btn-primary float-end pe-none" disabled>
-                        $
-                        <%= track.exclusive_licence.price unless track.exclusive_licence.blank?  %> CLP
-                      </button>
-                    <% end %>
-                  </div>
-                </div>
-              </div>  
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-dark col-2 p-2" data-bs-dismiss="modal"><%= t :ok %></button>
-            </div>
+  <div class="d-flex justify-content-between w-100">
+    <%# INFORMACION DEL TRACK %>
+    <div class="postcard__text ps-5 d-flex justify-content-evenly">
+      <div>
+        <div class="postcard__title blue d-flex flex-column">
+          <a class="pe-2" href="<%= track_path(track) %>">
+            <h3 class="fw-bolder text-primary pb-0 mb-0">
+              <%= track.title %>
+            </h3>
+          </a>
+        </div>
+        <div class="postcard__subtitle small pt-2 d-flex align-items">
+          <span class="badge bg-secondary fs-7"><%= link_to track.user.aka, profile_path(track.user) %></span>
+          <div class="ps-2 d-flex align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+            </svg>
+            <span class="ago ps-1" style="margin-bottom: -0px;">
+              Hace <%= time_ago_in_words(track.created_at) %>
+            </span>
           </div>
         </div>
       </div>
 
-    </ul>
-  </div>
+      <div class="postcard__bar"></div>
 
-  <div class="d-flex flex-column">
-    <div class="post-menu dropend p-4">
-      <a role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
-        <div class="w-100 d-flex flex-column align-items-center justify-content-center">
-          <svg width="6em" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
-          </svg>
-        </div>
-      </a>
-      <div class="dropdown-menu dropdown-primary">
-          <% if track.user.id == current_user.id %>
-            <%= link_to('Editar', edit_track_path(track), class: "dropdown-item")%>
-            <%= link_to('Eliminar', track, method: :delete, data: { confirm: '¿Quieres eliminar la pista?' }, class: "dropdown-item") %>
-            <li><hr class="dropdown-divider"></li>
+      <div class="postcard__tagbox">
+        <audio controls class="col-12 audio-player" id="<%= track.id %>" controlsList="nodownload">
+          <% if track.tagged_audio.attached? %>
+            <source src="<%= rails_blob_url track.tagged_audio %>" type="audio/mpeg">
+            Your browser does not support the audio element.
           <% end %>
-          <a class="dropdown-item" href="#"><i class="fab fa-apple-pay"></i>Reportar</a>
+        </audio>
+      </div>
+
+      <%# SECCION DE BOTONES %>
+      <ul class="ps-0 mt-2 mb-0">
+        <%# <li class="tag-item"><i class="fas fa-tag mr-2"></i>Hip Hop | Soul</li> %>
+        <span class="btn btn-sm btn-outline-primary"><i class="fas fa-clock mr-2"></i><%= track.bpm %> BPM</span>
+        <a type="button" class="btn btn-sm btn-outline-primary track-play-btn" id="<%= track.id %>"><i class="fas fa-play mr-2"></i>Reproducir</a>
+
+        <%# LICENCE PRICES MODAL %>
+        <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#licenceModalTrack<%= track.id %>">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
+            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
+          </svg>
+          <% unless track.basic_licence.blank? %>
+            <%= track.basic_licence.price %> CLP
+          <% end %>
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="licenceModalTrack<%= track.id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><%= track.title %><span class="text-muted fw-light"> &centerdot; <%= track.user.aka%></span></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <div class="list-group">
+                  <div class="row align-items-center pb-3 border-bottom">
+                    <div class="col-8 list-unstyled">
+                      <li class="fs-6 fw-bold w-100">
+                        Licencia <%= track.basic_licence.name unless track.basic_licence.blank? %>
+                      </li>
+                      <span>
+                        Licencia básica o leasing, permite el uso para fines comerciales, multiples compradores.
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <% if signed_in? && track.user != current_user %>
+                        <a type="button" class="btn btn-primary float-end" href="<%= line_items_path(:licence_id => track.basic_licence.id) unless track.basic_licence.blank? %>">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
+                          </svg>
+                          <%= track.basic_licence.price unless track.basic_licence.blank?  %> CLP
+                        </a>
+                      <% else %>
+                        <button type="button" class="btn btn-primary float-end pe-none" disabled>
+                          $
+                          <%= track.basic_licence.price unless track.basic_licence.blank?  %> CLP
+                        </button>
+                      <% end %>
+                    </div>
+                  </div>
+                  <div class="row align-items-center pt-3">
+                    <div class="col-8 list-unstyled">
+                      <li class="fs-6 fw-bold w-100">
+                        Licencia <%= track.exclusive_licence.name unless track.exclusive_licence.blank? %>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-text-fill ms-1" viewBox="0 0 16 16">
+                          <path d="M12 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM5 4h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm-.5 2.5A.5.5 0 0 1 5 6h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1-.5-.5zM5 8h6a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1zm0 2h3a.5.5 0 0 1 0 1H5a.5.5 0 0 1 0-1z"></path>
+                        </svg>
+                      </li>
+                      <span>
+                        Licencia exclusiva, adquisición de copia única, permite el uso para fines comerciales, único comprador.
+                      </span>
+                    </div>
+                    <div class="col-4">
+                      <% if signed_in? && track.user != current_user %>
+                        <a type="button" class="btn btn-primary float-end" href="<%= line_items_path(:licence_id => track.exclusive_licence.id) unless track.exclusive_licence.blank? %>">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
+                            <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
+                          </svg>
+                          <%= track.exclusive_licence.price unless track.exclusive_licence.blank?  %> CLP
+                        </a>
+                      <% else %>
+                        <button type="button" class="btn btn-primary float-end pe-none" disabled>
+                          $
+                          <%= track.exclusive_licence.price unless track.exclusive_licence.blank?  %> CLP
+                        </button>
+                      <% end %>
+                    </div>
+                  </div>
+                </div>  
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-dark col-2 p-2" data-bs-dismiss="modal"><%= t :ok %></button>
+              </div>
+            </div>
+          </div>
         </div>
+
+      </ul>
     </div>
+
+    <%# MENU DE OPCIONES %>
+    <div class="d-flex flex-column justify-content-between">
+      <div class="post-menu dropend p-4">
+        <% if signed_in? && track.user.id == current_user.id %>
+          <a role="button" data-bs-toggle="dropdown" aria-expanded="false" class="">
+            <div class="w-100 d-flex flex-column align-items-center justify-content-center">
+              <svg width="6em" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z"></path>
+              </svg>
+            </div>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <% if track.user.id == current_user.id %>
+              <%= link_to('Editar', edit_track_path(track), class: "dropdown-item")%>
+              <%= link_to('Eliminar', track, method: :delete, data: { confirm: '¿Quieres eliminar la pista?' }, class: "dropdown-item") %>
+              <li><hr class="dropdown-divider"></li>
+            <% end %>
+            <a class="dropdown-item" href="#"><i class="fab fa-apple-pay"></i>Reportar</a>
+          </div>
+        <% end %>
+      </div>
+      <% star_color = 'white'; %>
+      <div class="p-4 d-flex align-items-center justify-content-center" style="z-index: 1;">
+          <a class="nav-link" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="rgb(243, 197, 81)" class="bi bi-star-fill" viewBox="0 0 16 16">
+              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+            </svg>
+          </a>
+          <ul class="dropdown-menu list-group-horizontal dropdown-menu-bottom" aria-labelledby="navbarDropdown" style="">
+            <ul class="list-group list-group-horizontal">
+              <% (1..5).to_a.each do |n| %>
+                <a class="nav-link icon-star" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="<%= star_color %>" class="bi bi-star-fill" viewBox="0 0 16 16">
+                    <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"></path>
+                  </svg>
+                </a>
+              <% end %>
+            </ul>
+          </ul>
+      </div>
+    </div>
+
   </div>
 
 </article>

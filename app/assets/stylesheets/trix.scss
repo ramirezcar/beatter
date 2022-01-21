@@ -14,6 +14,10 @@ trix-editor {
   outline: none; 
   font-size: .9rem;
 }
+
+.truncate .trix-content h1{
+  font-size: 1.2rem;
+}
 trix-toolbar * {
   box-sizing: border-box; }
 trix-toolbar .trix-button-row {
@@ -366,9 +370,12 @@ trix-editor .attachment__metadata {
     font-family: monospace;
     font-size: 1em;
     padding: 0.5em;
+    margin: 1em 0;
     white-space: pre;
-    background-color: #eee;
-    overflow-x: auto; }
+    background-color: #303137;
+    overflow-x: auto;
+    border-radius: 0.3em;
+  }
   .trix-content img {
     max-width: 85%;
     height: auto;
