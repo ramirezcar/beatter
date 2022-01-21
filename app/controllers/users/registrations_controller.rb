@@ -29,13 +29,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
     # @user.avatar = mini_image.resize '500x500'
 
 
-    respond_to do |format|
-    end
+    # respond_to do |format|
+    # end
     
     # GET /resource/edit
-    def edit
-      super
-      respond_to do |format|
+    # def edit
+    #   super
+    #   respond_to do |format|
+    #   end
+    # end
   end
   
   # # PUT /resource
